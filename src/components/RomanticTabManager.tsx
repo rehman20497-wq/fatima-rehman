@@ -41,18 +41,22 @@ export default function RomanticTabManager() {
 
   // Helper to dynamically set SVG favicon using emoji representation
   const updateFavicon = (emoji: string) => {
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-    
-    let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
-    if (!link) {
-      link = document.createElement("link");
-      link.rel = "icon";
-      document.head.appendChild(link);
+    try {
+      if (typeof window === "undefined" || typeof document === "undefined") return;
+      
+      let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = "icon";
+        document.head.appendChild(link);
+      }
+      
+      // Create elegant, crisp SVG data URL for the emoji
+      const svgString = `<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
+      link.href = `data:image/svg+xml,${svgString}`;
+    } catch (e) {
+      console.warn("Favicon update failed/ignored due to security sandbox constraints", e);
     }
-    
-    // Create elegant, crisp SVG data URL for the emoji
-    const svgString = `<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
-    link.href = `data:image/svg+xml,${svgString}`;
   };
 
   useEffect(() => {
@@ -67,90 +71,134 @@ export default function RomanticTabManager() {
     let welcomeTimeoutId: number | null = null;
 
     const startNormalCycles = () => {
-      // Clear any previous interval to prevent leaks
-      if (titleIntervalId) clearInterval(titleIntervalId);
-      if (faviconIntervalId) clearInterval(faviconIntervalId);
+      try {
+        // Clear any previous interval to prevent leaks
+        if (titleIntervalId) clearInterval(titleIntervalId);
+        if (faviconIntervalId) clearInterval(faviconIntervalId);
 
-      // Start beautiful Document Title rotation
-      document.title = NORMAL_TITLES[normalTitleIndex];
-      titleIntervalId = window.setInterval(() => {
-        normalTitleIndex = (normalTitleIndex + 1) % NORMAL_TITLES.length;
+        // Start beautiful Document Title rotation
         document.title = NORMAL_TITLES[normalTitleIndex];
-      }, 3000); // Rotate every 3 seconds for smooth premium timing
+        titleIntervalId = window.setInterval(() => {
+          try {
+            normalTitleIndex = (normalTitleIndex + 1) % NORMAL_TITLES.length;
+            document.title = NORMAL_TITLES[normalTitleIndex];
+          } catch (err) {
+            console.warn("Failed to update title during normal cycle", err);
+          }
+        }, 3000); // Rotate every 3 seconds for smooth premium timing
 
-      // Start gorgeous dynamic Favicon animation
-      updateFavicon(NORMAL_FAVICONS[normalFaviconIndex]);
-      faviconIntervalId = window.setInterval(() => {
-        normalFaviconIndex = (normalFaviconIndex + 1) % NORMAL_FAVICONS.length;
+        // Start gorgeous dynamic Favicon animation
         updateFavicon(NORMAL_FAVICONS[normalFaviconIndex]);
-      }, 2500); // Animate smoothly
+        faviconIntervalId = window.setInterval(() => {
+          try {
+            normalFaviconIndex = (normalFaviconIndex + 1) % NORMAL_FAVICONS.length;
+            updateFavicon(NORMAL_FAVICONS[normalFaviconIndex]);
+          } catch (err) {
+            console.warn("Failed to update favicon during normal cycle", err);
+          }
+        }, 2500); // Animate smoothly
+      } catch (e) {
+        console.warn("Error starting normal cycles", e);
+      }
     };
 
     const startLostFocusCycles = () => {
-      // Clear previous intervals
-      if (titleIntervalId) clearInterval(titleIntervalId);
-      if (faviconIntervalId) clearInterval(faviconIntervalId);
+      try {
+        // Clear previous intervals
+        if (titleIntervalId) clearInterval(titleIntervalId);
+        if (faviconIntervalId) clearInterval(faviconIntervalId);
 
-      // Rotate attention-grabbing romantic titles immediately
-      document.title = LOST_FOCUS_TITLES[lostFocusTitleIndex];
-      titleIntervalId = window.setInterval(() => {
-        lostFocusTitleIndex = (lostFocusTitleIndex + 1) % LOST_FOCUS_TITLES.length;
+        // Rotate attention-grabbing romantic titles immediately
         document.title = LOST_FOCUS_TITLES[lostFocusTitleIndex];
-      }, 2500);
+        titleIntervalId = window.setInterval(() => {
+          try {
+            lostFocusTitleIndex = (lostFocusTitleIndex + 1) % LOST_FOCUS_TITLES.length;
+            document.title = LOST_FOCUS_TITLES[lostFocusTitleIndex];
+          } catch (err) {
+            console.warn("Failed to update lost-focus title", err);
+          }
+        }, 2500);
 
-      // Cycle between kiss/heart pulse icons
-      updateFavicon(LOST_FOCUS_FAVICONS[lostFocusFaviconIndex]);
-      faviconIntervalId = window.setInterval(() => {
-        lostFocusFaviconIndex = (lostFocusFaviconIndex + 1) % LOST_FOCUS_FAVICONS.length;
+        // Cycle between kiss/heart pulse icons
         updateFavicon(LOST_FOCUS_FAVICONS[lostFocusFaviconIndex]);
-      }, 1500);
+        faviconIntervalId = window.setInterval(() => {
+          try {
+            lostFocusFaviconIndex = (lostFocusFaviconIndex + 1) % LOST_FOCUS_FAVICONS.length;
+            updateFavicon(LOST_FOCUS_FAVICONS[lostFocusFaviconIndex]);
+          } catch (err) {
+            console.warn("Failed to update lost-focus favicon", err);
+          }
+        }, 1500);
+      } catch (e) {
+        console.warn("Error starting lost focus cycles", e);
+      }
     };
 
     // Handle initial state setup
     startNormalCycles();
 
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setIsTabFocused(false);
-        startLostFocusCycles();
-      } else {
-        setIsTabFocused(true);
-        if (titleIntervalId) clearInterval(titleIntervalId);
-        if (faviconIntervalId) clearInterval(faviconIntervalId);
+      try {
+        if (document.hidden) {
+          setIsTabFocused(false);
+          startLostFocusCycles();
+        } else {
+          setIsTabFocused(true);
+          if (titleIntervalId) clearInterval(titleIntervalId);
+          if (faviconIntervalId) clearInterval(faviconIntervalId);
 
-        // Show welcome back title alert
-        document.title = "❤️ Welcome Back Meri Jaan";
-        updateFavicon("💖");
+          // Show welcome back title alert
+          document.title = "❤️ Welcome Back Meri Jaan";
+          updateFavicon("💖");
 
-        // Clear any previous welcome timeout
-        if (welcomeTimeoutId) clearTimeout(welcomeTimeoutId);
+          // Clear any previous welcome timeout
+          if (welcomeTimeoutId) clearTimeout(welcomeTimeoutId);
 
-        // Return to normal romantic schedule after 3 seconds
-        welcomeTimeoutId = window.setTimeout(() => {
-          startNormalCycles();
-        }, 3000);
+          // Return to normal romantic schedule after 3 seconds
+          welcomeTimeoutId = window.setTimeout(() => {
+            startNormalCycles();
+          }, 3000);
+        }
+      } catch (e) {
+        console.warn("Error handling visibility change", e);
       }
     };
 
     const handleFocus = () => {
-      if (!isTabFocused) {
-        handleVisibilityChange();
+      try {
+        if (!isTabFocused) {
+          handleVisibilityChange();
+        }
+      } catch (e) {
+        console.warn("Error in handleFocus", e);
       }
     };
 
     const handleBlur = () => {
-      setIsTabFocused(false);
-      startLostFocusCycles();
+      try {
+        setIsTabFocused(false);
+        startLostFocusCycles();
+      } catch (e) {
+        console.warn("Error in handleBlur", e);
+      }
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("focus", handleFocus);
-    window.addEventListener("blur", handleBlur);
+    try {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      window.addEventListener("focus", handleFocus);
+      window.addEventListener("blur", handleBlur);
+    } catch (e) {
+      console.warn("Failed to bind tab listeners", e);
+    }
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("blur", handleBlur);
+      try {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        window.removeEventListener("focus", handleFocus);
+        window.removeEventListener("blur", handleBlur);
+      } catch (e) {
+        console.warn("Failed to unbind tab listeners", e);
+      }
       if (titleIntervalId) clearInterval(titleIntervalId);
       if (faviconIntervalId) clearInterval(faviconIntervalId);
       if (welcomeTimeoutId) clearTimeout(welcomeTimeoutId);
