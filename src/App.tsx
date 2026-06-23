@@ -17,6 +17,7 @@ import GiftSection from "./components/GiftSection";
 import ForeverWall from "./components/ForeverWall";
 import MeriFatima from "./components/MeriFatima";
 import AikKhuwaab from "./components/AikKhuwaab";
+import RomanticTabManager from "./components/RomanticTabManager";
 import FinalScene from "./components/FinalScene";
 import SoundtrackController from "./components/SoundtrackController";
 import { Sparkles, Heart } from "lucide-react";
@@ -36,6 +37,9 @@ export default function App() {
   return (
     <div id="love-app-root" className="relative w-full min-h-screen bg-[#05010a] text-white selection:bg-[#D4AF37]/30 selection:text-[#D4AF37] overflow-x-hidden font-sans">
       
+      {/* Interactive Title & Favicon Tab Manager */}
+      <RomanticTabManager />
+
       {/* Luxury Interactive Custom Cursor Trail */}
       <CustomCursor />
 
