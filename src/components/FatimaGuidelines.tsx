@@ -110,20 +110,20 @@ export default function FatimaGuidelines() {
       type: "do",
       iconColor: "text-pink-400",
       accentGlow: "from-pink-500/20 to-transparent",
-    }
-  ];
-
-  const donts: GuidelineItem[] = [
+    },
     {
       id: "nail-biting",
       title: "Nail Biting",
       emoji: "💅",
-      desc: "Anxious chewing or biting of fingernails.",
-      playfulNote: "Strictly banned! Let's keep those beautiful nails perfect and pristine.",
-      type: "dont",
+      desc: "Chewing or playing with nails in cute, endearing ways.",
+      playfulNote: "Since you love it, I will gently hold your hand and admire your beautiful nails while you do! 🥰",
+      type: "do",
       iconColor: "text-[#B76E79]",
-      accentGlow: "from-[#B76E79]/25 to-transparent",
-    },
+      accentGlow: "from-[#B76E79]/20 to-transparent",
+    }
+  ];
+
+  const donts: GuidelineItem[] = [
     {
       id: "love-bites",
       title: "Love Bites",
@@ -143,6 +143,16 @@ export default function FatimaGuidelines() {
       type: "dont",
       iconColor: "text-rose-600",
       accentGlow: "from-rose-600/25 to-transparent",
+    },
+    {
+      id: "pinching",
+      title: "Pinching",
+      emoji: "🤏",
+      desc: "Uncomfortable or unhygienic squeezing or sharp pinching of the skin.",
+      playfulNote: "Restricted! Only ultra-gentle, loving touch is allowed—no pinches on my fragile Queen! 🥰",
+      type: "dont",
+      iconColor: "text-amber-500",
+      accentGlow: "from-amber-600/25 to-transparent",
     }
   ];
 
