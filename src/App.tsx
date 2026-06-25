@@ -16,6 +16,7 @@ import LoveLetter from "./components/LoveLetter";
 import GiftSection from "./components/GiftSection";
 import ForeverWall from "./components/ForeverWall";
 import MeriFatima from "./components/MeriFatima";
+import FatimaGuidelines from "./components/FatimaGuidelines";
 import AikKhuwaab from "./components/AikKhuwaab";
 import RomanticTabManager from "./components/RomanticTabManager";
 import FinalScene from "./components/FinalScene";
@@ -239,6 +240,9 @@ export default function App() {
 
             {/* SECTION 9.5 / NEW FINAL CHAPTER: Meri Fatima */}
             <MeriFatima />
+
+            {/* SECTION 9.7 / DIVINE GUIDELINES: Fatima's Do's & Don'ts */}
+            <FatimaGuidelines />
 
             {/* SECTION 9.8 / FINAL DREAM CHAPTER: Aik Khuwaab Tumhare Sath */}
             <AikKhuwaab />

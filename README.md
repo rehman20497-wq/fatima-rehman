@@ -16,6 +16,7 @@ An emotional, cinematic, and visually breathtaking interactive digital memory sp
 - **Chapter 7: Surprise Gift Section**: Open romantic keepsakes in visual motion.
 - **Chapter 8: Forever Wall of Reasons**: A customizable space of continuous romantic adoration.
 - **Chapter 9: Meri Fatima**: An immersive story slide canvas capturing our eternal bond.
+- **Chapter 9.7: Divine Guidelines**: An interactive 3D bento dashboard mapping Fatima's hygienic Do's and restricted Don'ts, finalized with a sacred, romantic trust-promise certificate signed by Abdul Rehman.
 - **Chapter 10: Aik Khuwaab Tumhare Sath**: Our brand new final cinematic dream scene. Features a beautiful Canvas walk sequence, romantic embrace particle burst, family sunset silhouette with our child, and a flowing poetic message scroll.
 
 ---
